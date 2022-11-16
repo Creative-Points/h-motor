@@ -258,7 +258,7 @@ session_start();
                 <div class="row item-slider">
                     <!-- prod -->
                     <?php
-                        $stmt = $conn->prepare("SELECT products.*, images.* FROM products INNER JOIN images ON images.product_id = products.id WHERE images.flag = 1");
+                        $stmt = $conn->prepare("SELECT products.*, images.*, products.id as pro_id FROM products INNER JOIN images ON images.product_id = products.id WHERE images.flag = 1");
                         $stmt->execute();
                         $rows = $stmt->fetchAll();
                         foreach($rows AS $row) {
@@ -283,7 +283,7 @@ session_start();
                                         <div class="entry-meta d-flex align-items-center justify-content-between">
                                             <div class="entry-author d-flex align-items-center">
                                                 <p class="mb-0 white">
-                                                    <a href="product.php?id=<?= $row['id']?>" class="nir-btn" style="font-size:22px ;">تفاصيل اكثر</a>
+                                                    <a href="product.php?id=<?= $row['pro_id']?>" class="nir-btn" style="font-size:22px ;">تفاصيل اكثر</a>
 
                                                 </p>
                                             </div>

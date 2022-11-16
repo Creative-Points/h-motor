@@ -34,24 +34,27 @@
         <h3>لوحة تحكم الادمن</h3>
     </center>
     <?php
-    include('config.php');
-    $result = mysqli_query($con, "SELECT * FROM products");
-    while($row = mysqli_fetch_array($result)){
-        echo "
+    include('../config.php');
+    // $result = mysqli_query($con, "SELECT * FROM products");
+    $stmt = $conn->prepare("SELECT products.*, images.*, products.id as pro_id FROM products INNER JOIN images ON images.product_id = products.id WHERE images.flag = 1");
+    $stmt->execute();
+    foreach($stmt->fetchAll() as $row)
+    {
+        ?>
         <center>
         <main>
             <div class='card' style='width: 15rem;'>
-                <img src='$row[image]' class='card-img-top'>
+                <img src='../<?= $path . $row['img'] ?>' class='card-img-top'>
                 <div class='card-body'>
-                    <h5 class='card-title'>$row[name]</h5>
-                    <p class='card-text'>$row[link]</p>
-                    <a href='delete.php? id=$row[id]' class='btn btn-danger'>حذف منتج</a>
-                    <a href='update.php? id=$row[id]' class='btn btn-primary'>تعديل منتج</a>
+                    <h5 class='card-title'><?=$row['name']?></h5>
+                    <!-- // <p class='card-text'>$row[link]</p> -->
+                    <a href='delete.php?id=<?= $row['pro_id'] ?>' class='btn btn-danger'>حذف منتج</a>
+                    <a href='update.php?id=<?= $row['pro_id'] ?>' class='btn btn-primary'>تعديل منتج</a>
                 </div>
             </div>
         </main>
         <center>
-        ";
+        <?php
     }
     ?>
 </body>

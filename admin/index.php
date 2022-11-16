@@ -16,11 +16,11 @@
             <form action="insert.php" method="post" enctype="multipart/form-data">
                 <h2>موقع تسويقي اونلاين</h2>
                 <img src="logo.png" alt="logo" width="450px">
-                <input type="text" name='name' placeholder="title">
+                <input type="text" name='name' placeholder="title" required>
                 <br>
-                <input type="text" name='description' placeholder="desc">
+                <input type="text" name='description' placeholder="desc" required>
                 <br>
-                <input type="file" id="file" name='image[]' style='display:none;' accept=".gif, .jpg, .jpeg, .png" required>
+                <input type="file" id="file" name='files[]' accept=".gif, .jpg, .jpeg, .png" multiple required>
                 <label for="file"> اختيار صورة للمنتج</label>
                 <button name='upload'>رفع المنتج ✅</button>
                 <br><br>

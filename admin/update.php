@@ -12,11 +12,11 @@
 </head>
 <body>
     <?php
-    include('config.php');
+    include('../config.php');
     $ID=$_GET['id'];
-    $up = mysqli_query($con, "select * from products where id =$ID");
-    $data = mysqli_fetch_array($up);
-    
+    $stmt = $conn->prepare("SELECT * FROM products WHERE id = ?");
+    $stmt->execute([$ID]);
+    $data = $stmt->fetch();
     ?>
     <center>
         <div class="main">
@@ -26,10 +26,10 @@
                 <br>
                 <input type="text" name='name' value='<?php echo $data['name']?>'>
                 <br>
-                <input type="text" name='link' value='<?php echo $data['link']?>'>
+                <input type="text" name='description' value='<?php echo $data['description']?>'>
                 <br>
-                <input type="file" id="file" name='image' style='display:none;'>
-                <label for="file"> تحديث صورة المنتج</label>
+                <!-- <input type="file" id="file" name='image' style='display:none;'>
+                <label for="file"> تحديث صورة المنتج</label> -->
                 <button name='update' type='submit'>تعديل المنتج</button>
                 <br><br>
                 <a href="products.php">عرض كل المنتجات</a>
