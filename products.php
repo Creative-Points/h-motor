@@ -1,3 +1,10 @@
+<?php
+
+include_once('config.php');
+session_start();
+// $user_id = $_SESSION['user_id'];
+
+?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zxx">
 
@@ -158,19 +165,19 @@
         </div>
         <div class="destination-list">
             
-           
             <!-- prod-->
             <?php
-                        include('config.php');
-                        $result = mysqli_query($conn, "SELECT * FROM products");
-                        while ($row = mysqli_fetch_array($result)) {
-                        ?>
+                $stmt = $conn->prepare("SELECT products.*, images.* FROM products INNER JOIN images ON images.product_id = products.id WHERE images.flag = 1");
+                $stmt->execute();
+                $rows = $stmt->fetchAll();
+                foreach($rows AS $row) {
+            ?>
             <div class="trend-full bg-white rounded box-shadow overflow-hidden p-4 mb-4">
                 <div class="row">
                     <div class="col-lg-4 col-md-3">
                         <div class="trend-item2 rounded">
                             <a href="tour-single.html"
-                                style="background-image: url('admin/<?php echo $row['image']; ?>')"></a>
+                                style="background-image: url('<?= $path . $row['img']; ?>')"></a>
                             <div class="color-overlay"></div>
                         </div>
                     </div>
@@ -179,8 +186,8 @@
                     <div class="col-lg-5 col-md-6">
                         <div class="trend-content position-relative text-md-start text-center">
 
-                            <h3 class="mb-1"><a href="tour-single.html"><?php echo $row['name']; ?></a></h3>
-                            <a href="tour-single.html" class="nir-btn" style="font-size: 22px;">جميع التفاصيل</a>
+                            <h3 class="mb-1"><a href="product.php?id=<?= $row['id'] ?>"><?=$row['name']; ?></a></h3>
+                            <a href="product.php?id=<?= $row['id'] ?>" class="nir-btn" style="font-size: 22px;">جميع التفاصيل</a>
                         </div>
                     </div>
 

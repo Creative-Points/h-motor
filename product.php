@@ -1,10 +1,28 @@
+<?php
+include_once('config.php');
+if($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id']) && is_numeric($_GET['id']) && intval($_GET['id']) && $_GET['id'] != Null)
+{
+    $sql = "SELECT * FROM products WHERE id = ?";
+    // $sql = "SELECT products.*, images.* FROM products INNER JOIN images ON images.product_id = products.id WHERE products.id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$_GET['id']]);
+    $result = $stmt->rowCount() > 0 ? $stmt->fetch() : header('location:index.php');
+
+    $sql = "SELECT * FROM images  WHERE product_id = ?";
+    $stmt1 = $conn->prepare($sql);
+    $stmt1->execute([$result['id']]);
+    $images = $stmt1->fetchAll();
+
+    
+}
+?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zxx">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>H-motor H-motor</title>
+    <title>H-motor</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png">
 
@@ -75,7 +93,7 @@
 
 
                             <li class="submenu dropdown active">
-                                <a href="prod-list" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                <a href="products.php" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                     aria-haspopup="true" aria-expanded="false" style="font-size: 23px;">المنتجات</a>
 
                             </li>
@@ -127,11 +145,11 @@
     <div class="breadcrumb-outer">
         <div class="container">
             <div class="breadcrumb-content text-center">
-                <h1 class="mb-3">Tour Single</h1>
+                <h1 class="mb-3"><?= $result['name'] ?></h1>
                 <nav aria-label="breadcrumb" class="d-block">
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Tour Single Two</li>
+                        <li class="breadcrumb-item active" aria-current="page"><?= $result['name'] ?>   </li>
                     </ul>
                 </nav>
             </div>
@@ -148,36 +166,34 @@
                 <div class="single-content">
                     <div class="single-full-title border-b mb-2 pb-2">
                         <div class="single-title">
-                            <h2 class="mb-1">Adriatic Adventure–Zagreb to Athens</h2>
+                            <h2 class="mb-1"><?= $result['name'] ?></h2>
 
                         </div>
                     </div>
                     <div class="description-images mb-4 overflow-hidden">
                         <div class="thumbnail-images position-relative">
                             <div class="slider-store rounded overflow-hidden">
-                                <div>
-                                    <img src="images/products/prod2/prod2 (1).jpeg" alt="1">
-                                </div>
-                                <div>
-                                    <img src="images/products/prod2/prod2 (2).jpeg" alt="1">
-                                </div>
-
-
-                                <div>
-                                    <img src="images/products/prod2/prod2 (5).jpeg" alt="1">
-                                </div>
+                                <?php 
+                                    foreach($images AS $row)
+                                    { ?>
+                                        <div>
+                                            <img src="<?= $path . $row['img'] ?>" alt="1">
+                                        </div>
+                                    <?php
+                                    }
+                                ?>
 
                             </div>
                             <div class="slider-thumbs">
-                                <div>
-                                    <img src="images/trending/trending1.jpg" alt="1">
-                                </div>
-                                <div>
-                                    <img src="images/trending/trending2.jpg" alt="1">
-                                </div>
-                                <div>
-                                    <img src="images/trending/trending3.jpg" alt="1">
-                                </div>
+                            <?php 
+                                    foreach($images AS $row)
+                                    { ?>
+                                        <div>
+                                            <img src="<?= $path . $row['img'] ?>" alt="1">
+                                        </div>
+                                    <?php
+                                    }
+                                ?>
 
                             </div>
                         </div>
@@ -185,13 +201,7 @@
                     <div class="description mb-2">
                         <h4>تفاصيل المنتج</h4>
 
-                        <p class="mb-0">💥 ملفات من انقى انواع النحاس</p>
-                        <p class="mb-0">💥 ريشة توجيه زهر</p>
-                        <p class="mb-0">💥 ريشة داخلية نحاس بيور</p>
-                        <p class="mb-0">💥 اكس ستانلس بالكامل</p>
-                        <p class="mb-0">💥 فارغة زهر بها مادة الكتافورايس المعالجة و مقاومة ضد الصدا</p>
-                        <p class="mb-0">💥 اولسيه حراري</p>
-                        <p class="mb-0">💥 ضمان لمدة خمس سنوات 📋</p>
+                        <p class="mb-0"><?= $result['description'] ?></p>
 
                     </div>
                     <div class="tour-includes mb-4">

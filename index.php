@@ -1,8 +1,8 @@
 <?php
 
-include 'config.php';
+include_once('config.php');
 session_start();
-$user_id = $_SESSION['user_id'];
+// $user_id = $_SESSION['user_id'];
 
 
 
@@ -86,7 +86,7 @@ $user_id = $_SESSION['user_id'];
 
 
                                 <li class="submenu dropdown">
-                                    <a href="prod-list" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="font-size: 23px;">المنتجات</a>
+                                    <a href="products.php" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="font-size: 23px;">المنتجات</a>
 
                                 </li>
 
@@ -258,14 +258,15 @@ $user_id = $_SESSION['user_id'];
                 <div class="row item-slider">
                     <!-- prod -->
                     <?php
-                        include('config.php');
-                        $result = mysqli_query($conn, "SELECT * FROM products");
-                        while ($row = mysqli_fetch_array($result)) {
+                        $stmt = $conn->prepare("SELECT products.*, images.* FROM products INNER JOIN images ON images.product_id = products.id WHERE images.flag = 1");
+                        $stmt->execute();
+                        $rows = $stmt->fetchAll();
+                        foreach($rows AS $row) {
                         ?>
                         <div class="col-lg-4">
                             <div class="trend-item1 rounded box-shadow bg-white mb-4">
                                 <div class="trend-image position-relative">
-                                    <img src="admin/<?php echo $row['image']; ?>" alt="image" class="">
+                                    <img src="<?= $path . $row['img']; ?>" alt="image" class="">
                                     <div class="trend-content1 p-4">
                                         <h3 class="mb-1 white"><a href="tour-grid.html" class="white"><?php echo $row['name']; ?></a>
                                         </h3>
@@ -282,7 +283,7 @@ $user_id = $_SESSION['user_id'];
                                         <div class="entry-meta d-flex align-items-center justify-content-between">
                                             <div class="entry-author d-flex align-items-center">
                                                 <p class="mb-0 white">
-                                                    <a href="<?php echo $row['link']; ?>" class="nir-btn" style="font-size:22px ;">تفاصيل اكثر</a>
+                                                    <a href="product.php?id=<?= $row['id']?>" class="nir-btn" style="font-size:22px ;">تفاصيل اكثر</a>
 
                                                 </p>
                                             </div>
@@ -293,9 +294,9 @@ $user_id = $_SESSION['user_id'];
                                 </div>
                             </div>
                         </div>
-                        </form>
+                        
                     <?php
-                    };
+                    }
                     ?>
                     <!-- prod3 -->
                     <!-- <div class="col-lg-4">
