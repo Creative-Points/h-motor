@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 16, 2022 at 09:20 PM
+-- Generation Time: Nov 17, 2022 at 09:30 AM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 8.1.6
 
@@ -54,16 +54,16 @@ CREATE TABLE `products` (
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `email` varchar(255) NOT NULL,
+  `password` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `password`) VALUES
-(0, 'admin@gmail.com', 'cbfdac6008f9cab4083784cbd1874f76618d2a97');
+INSERT INTO `users` (`id`, `email`, `password`) VALUES
+(1, 'nabil@gmail.com', '5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8');
 
 --
 -- Indexes for dumped tables
@@ -83,6 +83,12 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -97,6 +103,12 @@ ALTER TABLE `images`
 --
 ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
