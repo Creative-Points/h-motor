@@ -1,5 +1,8 @@
 <?php
-
+session_start();
+if(!isset($_SESSION['id'])){
+    header("Location: loginForm.php");
+}
 include('../config.php');
 
 function generateRandomString($length = 10) {
